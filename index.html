@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Silício Companion</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#9b59b6">
+  <link rel="icon" type="image/png" href="logo-silicio.png">
+
+  <!-- Apple meta -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Projeto Silício">
+  <link rel="apple-touch-icon" href="logo-silicio.png">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <div class="brand">
+        <img src="logo-silicio.png" alt="logo" class="logo">
+        <div>
+          <h1>Silício Companion</h1>
+          <p class="subtitle">Seu robozinho multifuncional</p>
+        </div>
+      </div>
+      <div class="controls">
+        <button id="themeToggle" class="btn small">🌗</button>
+      </div>
+    </header>
+
+    <main id="app">
+      <section id="home" class="screen active">
+        <div class="hero">
+          <div class="robot" id="robot" aria-hidden="true">
+            <svg width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img">
+              <rect x="18" y="28" width="124" height="100" rx="18" fill="#e9d8ff"/>
+              <rect x="36" y="46" width="88" height="64" rx="10" fill="#2b0049"/>
+              <circle cx="64" cy="78" r="6" fill="#e9d8ff"/><circle cx="96" cy="78" r="6" fill="#e9d8ff"/>
+              <rect x="68" y="94" width="24" height="6" rx="3" fill="#e9d8ff"/>
+              <rect x="28" y="66" width="8" height="24" rx="4" fill="#b784e8"/>
+              <rect x="124" y="66" width="8" height="24" rx="4" fill="#b784e8"/>
+              <rect x="60" y="16" width="40" height="12" rx="6" fill="#b784e8"/>
+              <circle cx="80" cy="22" r="4" fill="#2b0049"/>
+            </svg>
+          </div>
+          <div class="robot-speech" id="speech">Olá! Eu sou o Silício 🤖</div>
+        </div>
+
+        <nav class="menu">
+          <button class="btn big" data-screen="notes">Bloco de Notas</button>
+          <button class="btn big" data-screen="calc">Calculadora</button>
+          <button class="btn big" data-screen="timer">Cronômetro</button>
+          <button class="btn big" data-screen="about">Sobre</button>
+        </nav>
+      </section>
+
+      <section id="notes" class="screen">
+        <header class="screen-header">
+          <h2>Bloco de Notas</h2>
+          <div><button class="btn" id="notesBack">Voltar</button></div>
+        </header>
+        <div class="composer">
+          <input id="noteTitle" placeholder="Título">
+          <textarea id="noteBody" placeholder="Escreva suas notas aqui..."></textarea>
+          <div class="composer-buttons">
+            <button class="btn primary" id="saveNote">Salvar</button>
+            <button class="btn" id="newNote">Novo</button>
+            <button class="btn" id="exportNotes">Exportar (.json)</button>
+          </div>
+          <div id="notesList" class="notes-list"></div>
+        </div>
+      </section>
+
+      <section id="calc" class="screen">
+        <header class="screen-header">
+          <h2>Calculadora</h2>
+          <div><button class="btn" data-screen="home">Voltar</button></div>
+        </header>
+        <div class="calculator">
+          <input id="calcDisplay" readonly value="0">
+          <div class="keys">
+            <button class="key" data-val="7">7</button><button class="key" data-val="8">8</button><button class="key" data-val="9">9</button><button class="key op" data-val="/">÷</button>
+            <button class="key" data-val="4">4</button><button class="key" data-val="5">5</button><button class="key" data-val="6">6</button><button class="key op" data-val="*">×</button>
+            <button class="key" data-val="1">1</button><button class="key" data-val="2">2</button><button class="key" data-val="3">3</button><button class="key op" data-val="-">−</button>
+            <button class="key" data-val="0">0</button><button class="key" data-val=".">.</button><button class="key" id="calcEquals">=</button><button class="key op" data-val="+">+</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="timer" class="screen">
+        <header class="screen-header">
+          <h2>Cronômetro</h2>
+          <div><button class="btn" data-screen="home">Voltar</button></div>
+        </header>
+        <div class="timer-box">
+          <div id="timerDisplay">00:00:00.00</div>
+          <div class="timer-controls">
+            <button class="btn" id="startStop">Iniciar</button>
+            <button class="btn" id="lap">Volta</button>
+            <button class="btn" id="reset">Reset</button>
+          </div>
+          <ol id="laps"></ol>
+        </div>
+      </section>
+
+      <section id="about" class="screen">
+        <header class="screen-header">
+          <h2>Sobre</h2>
+          <div><button class="btn" data-screen="home">Voltar</button></div>
+        </header>
+        <div class="composer">
+          <p>Silício Companion — mascote robô minimalista que reúne notas, calculadora e cronômetro. PWA instalável com tema ametista.</p>
+          <p>Dados salvos localmente no seu dispositivo.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js').then(()=>console.log('SW registrado')).catch(()=>{});
+    }
+  </script>
+</body>
+</html>
